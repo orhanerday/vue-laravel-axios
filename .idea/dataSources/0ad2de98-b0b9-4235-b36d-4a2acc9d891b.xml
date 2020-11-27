@@ -985,7 +985,7 @@ SELECT|sys.sys_config:null
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="309" parent="303" name="make">
+    <column id="309" parent="303" name="brand">
       <Position>2</Position>
       <DataType>varchar(191)|0s</DataType>
       <NotNull>1</NotNull>

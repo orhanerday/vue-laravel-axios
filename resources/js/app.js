@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-const { default: Axios } = require('axios');
+const {default: Axios} = require('axios');
 
 require('./bootstrap');
 
@@ -35,62 +35,69 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
     data: {
-        newCar: {'make': '', 'model': ''},
+        newCar: {'brand': '', 'model': ''},
         hasError: true,
         cars: [],
+        mycar: [],
+        modalShow: false,
         e_id: '',
-        e_make: '',
+        e_brand: '',
         e_model: '',
     },
-    mounted: function mounted(){
+    mounted: function mounted() {
         this.getCars();
     },
     methods: {
-        getCars: function getCars(){
+        getCars: function getCars() {
             var _this = this;
-            axios.get('/getCars').then(function(response){
+            axios.get('/getCars').then(function (response) {
                 _this.cars = response.data;
-            }).catch(error=>{
-                console.log("Get All: "+error);
+            }).catch(error => {
+                console.log("Get All: " + error);
             });
         },
         createCar: function createCar() {
             var input = this.newCar;
             var _this = this;
-            if(input['make'] == '' || input['model'] == '') {
+            if (input['brand'] == '' || input['model'] == '') {
                 this.hasError = false;
-            }
-            else {
-                this.hasError= true;
-                axios.post('/storeCar', input).then(function(response){
-                    _this.newCar = {'make': '', 'model': ''}
+            } else {
+                this.hasError = true;
+                axios.post('/storeCar', input).then(function (response) {
+                    _this.newCar = {'brand': '', 'model': ''}
                     _this.getCars();
-                }).catch(error=>{
-                    console.log("Insert: "+error);
+                }).catch(error => {
+                    console.log("Insert: " + error);
                 });
             }
         },
+        delVal(mycar) {
+            this.mycar = mycar;
+        },
         deleteCar: function deleteCar(car) {
+            console.log(car)
             var _this = this;
-            axios.post('/deleteCar/' + car.id).then(function(response){
+            axios.post('/deleteCar/' + car.id).then(function (response) {
                 _this.getCars();
-            }).catch(error=>{
-                console.log("Delete car: "+error);
+            }).catch(error => {
+                console.log("Delete car: " + error);
             });
         },
-        setVal(val_id, val_make, val_model) {
+        setVal(val_id, val_brand, val_model) {
             this.e_id = val_id;
-            this.e_make = val_make;
+            this.e_brand = val_brand;
             this.e_model = val_model;
         },
-        editCar: function(){
+        editCar: function () {
+            this.modalShow = true;
             var _this = this;
             var id_val_1 = document.getElementById('e_id');
-            var make_val_1 = document.getElementById('e_make');
+            var brand_val_1 = document.getElementById('e_brand');
             var model_val_1 = document.getElementById('e_model');
             var model = document.getElementById('myModal').value;
-            axios.post('/editCars/' + id_val_1.value, {val_1: make_val_1.value, val_2: model_val_1.value})
+            axios.post('/editCars/' + id_val_1.value, {val_1: brand_val_1.value, val_2: model_val_1.value})
                 .then(response => {
+                    this.modalShow = false;
                     _this.getCars();
                 });
         },

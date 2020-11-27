@@ -10,7 +10,7 @@ class CarsController extends Controller
 {
     public function storeCar(Request $request) {
         $car = new Cars();
-        $car->make = $request->make;
+        $car->brand = $request->brand;
         $car->model = $request->model;
         $car->save();
 
@@ -24,7 +24,7 @@ class CarsController extends Controller
     public  function editCar(Request $request, $id){
         $car = Cars::where('id',$id)->first();
 
-        $car->make = $request->get('val_1');
+        $car->brand = $request->get('val_1');
         $car->model = $request->get('val_2');
         $car->save();
 
